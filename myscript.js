@@ -264,7 +264,7 @@ if ($('.formulaEditorText').length) {
 
   $('.formulaEditorText').before('<code id="formated_text" style="" contenteditable="true"></code>');
   $('.formulaEditorText').hide();
-  $('#formated_text').before("<style>#formated_text {font-size: 20px; min-width:40px; min-height:20px;} .rsm-highlight {font-weight: bold} .rsm-bracket-wrong {color: #f00;font-weight: 900;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: yellow;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;} .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc {color: darkgreen;}</style>");
+  $('#formated_text').before("<style>#formated_text {font-size: 20px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;} .rsm-highlight {font-weight: bold} .rsm-bracket-wrong {color: #f00;font-weight: 900;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: yellow;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;} .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc {color: darkgreen;}</style>");
   $('#formated_text').before("<style id='rsm-indentation-style' disabled>.rsm-ite {display: block;} .rsm-indentStart {display:block; margin-left: 55px;}</style>");
   document.getElementById("rsm-indentation-style").disabled = true;
 
