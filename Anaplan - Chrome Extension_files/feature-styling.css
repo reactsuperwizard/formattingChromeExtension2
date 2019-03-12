@@ -1,0 +1,1518 @@
+/* Fixes for MOD-1529: MUST be moved to Dormouse */
+
+.line-item-heading1 {
+    font-weight: bold;
+    padding-left: 1px;
+}
+
+.line-item-heading2 {
+    padding-left: 9px;
+}
+
+
+.line-item-heading3 {
+    font-style: italic;
+    padding-left: 17px;
+}
+
+
+.line-item-summary1 {
+    font-weight: bold;
+    padding-left: 1px;
+}
+
+.line-item-summary2 {
+    font-weight: bold;
+    padding-left: 9px;
+}
+
+.line-item-summary3 {
+    font-weight: bold;
+    padding-left: 17px;
+}
+
+
+.line-item-normal {
+    padding-left: 17px;
+}
+
+.original .anaplanSettingsMenuButton {
+    right: 4px;
+    margin-top: 4px;
+}
+
+/* ===== CORECLI-59 START  ===== */
+
+.dashboardPreviewIcon {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    z-index: 900; /* LHS Panel has a fixed z-index of 800. This must be a higher value. */
+    top: 5px;
+    /* Horizontal position is set in tabs.Dashboard code. It changes as the panel slides in/out */
+}
+
+.dashboardPreviewIcon.anaplanEditorIcon.apDeleteChevron {
+    top: 2px;
+}
+
+.DashboardDesignControlsHeader {
+    width: 100%;
+    height: 22px;
+}
+
+.dashboardDesignControlsBody {
+    position: absolute;
+    top: 22px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0 9px 0 0;
+}
+
+.original .DashboardDesignControlsHeader .helpIcon {
+    float: none;
+    position: absolute;
+    right: 25px;
+    top: 4px;
+}
+
+.original .DashboardDesignControlsHeader .closeIcon {
+    float: none;
+    position: absolute;
+    right: 5px;
+    top: 4px;
+}
+
+/* ===== CORECLI-59 END  ===== */
+
+
+/* ===== CORECLI-713 ===== */
+
+.DashboardDesignControlsEmpty {
+    padding-left: 9px;
+}
+
+.DashboardDesignControlsEmpty h2 {
+    margin-top: 0;
+}
+
+/* ===== CORECLI-713 END ===== */
+
+/** CORECLI-259 */
+.anaplan-debug-mode {
+    background-color: green;
+    padding: 8px;
+    color: #fff;
+}
+
+.anaplan-debug-mode a {
+    color: #fff !important;
+}
+
+/** END CORECLI-259 */
+
+/* ===== CORETMA-13 visual prompt START  ===== */
+.original .dashboardWidget .dijitToolbar .anaplanInformationButton {
+    float: right;
+}
+
+/* ===== CORETMA-13 END  ===== */
+
+/* ===== CORECLI-557 START ===== */
+
+/* Helper classes for Dialog2ContentAdapter to imitate dialog sizes from _Modal.scss (duplicated here!) */
+.dialog2ContentAdapter {
+    overflow: auto;
+}
+
+.dialog2FixedWidthHelper.modal-m {
+    width: 628px; /* 682 - (2 * 27) */
+}
+
+.dialog2FixedWidthHelper.modal-xs {
+    width: 271px; /* 325 - (2 * 27) */
+}
+
+.dialog2FixedWidthHelper.modal-sm {
+    width: 458px;  /* 512 - (2 * 27) */
+}
+
+.dialog2FixedWidthHelper.modal-lg {
+    width: 970px;  /* 1024 - (2 * 27) */
+}
+
+.dialog2FixedWidthHelper.modal-xl {
+    height: 100%;
+    width: 100%;
+}
+
+/* ===== CORECLI-557 START ===== */
+
+/* ===== CORECLI-337 END  ===== */
+
+/* ===== CORECLI-719 Session time out blurs screen so that numbers can't be viewed START  ===== */
+/* SessionTimeout class is add dynamically when needed as used as the hook to blur the content */
+/* Thats why we have a class and id selector */
+
+/* Set blur for normal browsers */
+.sessionTimeout #border,
+.sessionTimeout .anaplanDialog,
+.sessionTimeout .anaplan_Dialog,
+.sessionTimeout .floatingTab,
+.sessionTimeout .formulaWindow,
+.sessionTimeout .anaplan_fs_dialog,
+.sessionTimeout .ap-tethered-wrapper,
+.sessionTimeout #ap-modals {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    filter: blur(5px);
+}
+
+/* ===== CORECLI-719 Session time out blurs screen so that numbers can't be viewed END  ===== */
+
+
+/* ===== CORECLI-1181 START ===== */
+.original .viewBar-classic.viewBar {
+    height: 31px;
+}
+/* ===== CORECLI-1181 END ===== */
+
+/* ===== CORECLI-1423 START 2016.3.1 only patch code. Fixed in develop as part of CORECLI-1383 ===== */
+
+#slideout.dojoxExpandoClosed .table-of-contents .footer {
+    display:none;
+}
+
+/* ===== CORECLI-1423 END ===== */
+
+.original .remoteModelEditor {
+    width: 458px;
+}
+
+.original .remoteModelEditor .modelSourceWorkspaceSelector {
+    padding-bottom: 18px;
+}
+
+/* dupe of modelimportsources */
+.original .remoteModelEditor .listLabelContainer {
+    background-color: #f1f1f1;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    font-weight: bold;
+    height: 20px;
+    padding-left: 0.5em;
+    padding-top: 5px;
+    /*width: 579px;*/
+}
+
+.original .remoteModelEditor .label {
+    font-weight: bold;
+}
+
+.original .remoteModelEditor .modelSelector {
+    height: 300px;
+}
+
+/* override existing style otherwise selector too narrow to fix long workspace name */
+.original .remoteModelEditor .dijitTextBox {
+    width: 382px;
+}
+
+.original .remoteModelEditor .messageContainer {
+    padding: 0 0 18px;
+}
+
+.original .remoteModelEditor .messageIcon {
+    float: left;
+    padding-right: 10px;
+    visibility: hidden;
+}
+
+/* dupe of busy indicator in other places */
+.original .remoteModelEditor .indicator {
+    background-repeat: no-repeat;
+    background-position: left center;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+
+.original .remoteModelEditor .indicator.busyIndicator {
+    background-image: url("../dormouse/images/ajax-loader.gif");
+}
+
+/* CORECLI-1883 - Chart Colours */
+.dijitMenu .dijitMenuItem td.colour-palette-menu {
+    padding-right:7px;
+}
+
+.dijitMenu td.colour-palette-menu .colour-palette {
+    height:16px;
+    width:16px;
+    display:block;
+    float:left;
+    border-radius:2px;
+    margin-right:2px;
+}
+
+/* CORECLI-1883 - Chart Colours */
+
+/* CORETMA-183 Style _SelectorDropdown used in PageSelectorOptions
+    - refactored 'starting' height and width out of javascript
+    - actual height and width will recalculated onOpen to avoid issue double scroll bars */
+
+.original .selectorDropdown {
+    height: 250px;
+    width: 270px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+/* END CORETMA-183 */
+
+.original .layoutOptions.waterfallChartOptions .legendCheckboxLabel {
+    display: table-cell;
+}
+
+/* CORESRV-1759 */
+.original .gridhost .overflow-cell .cellWrapper {
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+/* CORETMA-201 */
+
+.original .selectItems {
+    overflow: auto;
+    position: relative;
+}
+
+.original .selectItems .dijitToolbar {
+    border-bottom: none;
+}
+
+.original .selectItems .lhs,
+.original .selectItems .rhs {
+    border: 1px solid #bbb;
+}
+
+/* positioning lhs/rhs as per bulk delete */
+
+.original .selectItems .lhs {
+    float: left;
+}
+
+.original .selectItems .buttonPanel {
+    position: absolute;
+    width: 64px;
+}
+
+.original .selectItems .rhs {
+    float: right;
+}
+
+/* dupe of busy indicator in other places */
+.original .selectItems .indicator {
+    background-repeat: no-repeat;
+    background-position: left center;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+
+.original .selectItems .indicator.busyIndicator {
+    background-image: url("../dormouse/images/ajax-loader.gif");
+}
+
+.original .selectItems .reorderButtonGroup {
+    float:right;
+}
+
+/* workaround existing issues which may be reproduced using reorder - items which are locked do not render as expected? */
+
+.original .selectItems .sortableList .locked-item {
+    padding: 0.5em 0.5em 0.5em 12px;
+
+}
+
+/* tbc i dont think we want lock and looks bit weird with top cut off - existing issue in reorder in build model role */
+
+.original .selectItems .sortableList .locked-icon {
+    visibility: hidden;
+}
+
+/* styling as per items which are not selectable in dependent drop down - see menuItemNotSelectable */
+
+.original .selectItems .sortableList > ul > li.locked-item,
+.original .selectItems .sortableList > ul > li.locked-item:hover {
+    color: #7c7c7c;
+    cursor: default;
+    background-color: transparent;
+}
+
+/* Fixing the drag and drop move css bug - see CORETMA-218; will also change behaviour reorder */
+body.dojoDndMove.original .selectItems .sortableList .dojoDndItemOver{
+    background:transparent;
+    color:#333; /* convert to variable */
+}
+
+body.dojoDndMove.original .selectItems .sortableList .dojoDndItemAnchor,
+body.dojoDndMove.original .selectItems .sortableList .dojoDndItemSelected{
+    background: #3179b1; /* convert to variable */
+    color: #fff; /* convert to variable */
+}
+/* End fixing the drag and drop move css bug - see CORETMA-218; will also change behaviour reorder */
+
+.original .selectItems .infoMessage {
+    clear: both;
+    text-align: right;
+    width: 100%;
+}
+
+/* styling as per .original .bulkDelete .treeLabelContainer apart from background-color see CORETMA-218 */
+.original .selectItems .title {
+    padding-left: 16px;
+    height: 20px;
+    padding-top: 5px;
+    /*background-color: #e1e1e1;*/
+    font-weight: 700;
+}
+
+.original .selectItems .inlineSearch {
+    margin-left: 5px;
+}
+
+.original .selectItems .vertical-button-group .dijitButtonNode {
+    height: 26px;
+    width: 26px;
+}
+
+/* widgets/InlineSearch - for SelectItems sits in toolbar */
+
+.original .dijitToolbar .inlineSearch {
+    vertical-align: middle;
+}
+
+.original .inlineSearch {
+    display: inline-block;
+}
+
+.original .inlineSearch .table {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: table;
+    width: 100%;
+}
+
+.original .inlineSearch .table-row {
+    display: table-row;
+}
+
+.original .inlineSearch .table-cell {
+    display: table-cell;
+}
+
+.original .inlineSearch .icon {
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+}
+
+/* see .original .reorder .layout-left .layout-search .dijitInputField */
+.original .inlineSearch .dijitInputField {
+    padding: 3px 0px 0px 0px;
+}
+
+/* see .original .reorder .layout-left .layout-search .dijitTextBox */
+.original .inlineSearch .dijitTextBox {
+    border: none;
+    height: 16px;
+    padding: 0px 0px 4px 0px;
+    width: 100%;
+}
+
+/* END CORETMA-201 */
+
+/* DASH-278 [DASH-116] Dashboard icon doesn't appear until dashboard is opened */
+.original .dijitTabContainerTop-tabs .anaplanEditorIconDashboard{
+    display: inline-block;
+}
+
+/* DASH-382 remove surplus padding from floating tab title */
+.original .floatingTab .floatingTabTitle {
+    padding:8px 16px 0px;
+}
+/* END DASH-382 */
+
+/* DASH-237 replace (Edited) label with asterisk, edited tab label: blue, inactive edited tab label: normal weight  */
+.original .floatingTab.clientDashboardDefinitionChanged .floatingTabTitle{
+    color: #3179b1;
+}
+
+.original .tabContainer .clientDashboardDefinitionChanged .tabLabel {
+    font-weight:normal;
+    color: #3179b1;
+}
+
+.original .tabContainer .dijitTabChecked .tabLabel{
+    font-weight:700;
+}
+
+.original .floatingTab.clientDashboardDefinitionChanged .floatingTabTitle:after,
+.original .tabContainer .clientDashboardDefinitionChanged .tabLabel:after{
+    content: " *";
+}
+
+/* END DASH-237 */
+
+.dashboards-personal-views .aui {
+    height:100%;
+}
+
+.timeRanges .timeRangeContainer {
+    display: flex;
+}
+.timeRanges .timeRangeContainer + .timeRangeContainer {
+    margin-top: 8px
+}
+
+.timeRanges .timeRangeContainer > * {
+    flex-grow: 1;
+}
+
+.timeRanges .timeRangeContainer > :last-child {
+    width: 240px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.timeRanges .timeRangeLabel label,
+.timeRanges label.timeRangeLabel
+{
+    display: block;
+    padding: 2px 0 0 0;
+    text-align: right;
+    margin-right: 10px;
+}
+.timeRanges .timeRangeContainerCheckboxList {
+    padding-top: 1px;
+}
+.timeRanges .timeRangeContainerCheckbox {
+    display: flex;
+    align-items: center;
+    margin-left: -2px;
+}
+.timeRanges .timeRangeContainerCheckboxList > * + * {
+    margin-top: 3px;
+}
+
+.timeRanges .timeRangeContainerCheckbox label {
+    padding: 0 0 0 3px;
+}
+.timeRanges .timeRangeContainer .timeRangeContainerSelectBorder {
+    border: 1px solid #ccc;
+}
+
+.timeRanges .timeRangeContainer .timeRangeContainerSelectBorder table {
+    width: 100%;
+}
+
+.timeRanges .timeRangeContainer .timeRangeContainerSelect {
+    margin-left: 0;
+    margin-right: 0;
+    border-spacing: 0;
+    border: 0px;
+}
+
+.timeRanges .timeRangeContainer .timeRangeContainerSelect .dijitArrowButtonContainer {
+    width: 15px;
+}
+
+.timeRanges .footer {
+    margin-top: 20px;
+}
+.timeRanges .footer,
+.timeRanges .footer > div {
+    display: flex;
+    align-items: center
+}
+.timeRanges .footer label {
+    width: 140px;
+    margin: 0 0 0 6px;
+    padding: 0 20px 0 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.timeRanges .footer-fill {
+    flex-grow: 1;
+}
+
+.timeRanges .primary-button{
+    padding-right: .5em;
+}
+
+/* CORETMA-231 List Filter */
+
+.original .listFilter {
+    height: 130px;
+    width: 402px;
+}
+
+.original .listFilter .title {
+    font-weight: bold;
+}
+
+.original .listFilter .instructions {
+    padding-top: 10px;
+}
+
+.original .listFilter .editorWrapper {
+    padding-top: 5px;
+}
+
+/* size and style as placeholder for tokeninput */
+.original .listFilter .editorContainer {
+    border: 1px solid #ccc;
+    height: 28px;
+}
+
+.original .listFilter .enableFilterWrapper {
+    padding-top: 5px;
+}
+
+/* dupe of busy indicator in other places */
+.original .listFilter .indicator {
+    background-repeat: no-repeat;
+    background-position: left center;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+
+.original .listFilter .indicator.busyIndicator {
+    background-image: url("../dormouse/images/ajax-loader.gif");
+}
+
+.original .dijitTooltipDialog.pointyConnector .dijitTooltipConnector {
+    display: block;
+}
+
+/* END CORETMA-231 */
+
+/* CORESRV-2385 */
+/* .original .export .export-save-name.label from doormouse */
+.original .export .export-save {
+    display: table;
+}
+
+.original .export .row {
+    display: table-row;
+}
+
+.original .export .row .rowLabel {
+    display: table-cell;
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* END CORESRV-2385 */
+
+/* YO-173 GlobalNav */
+
+.original #gn.globalNavContainer {
+    height: 44px;
+}
+
+.original #gn {
+    overflow: visible;
+}
+
+.ap-gn-dropdown {
+    z-index: 500;
+}
+
+.ap-gn__heading {
+    min-width: 0;
+}
+
+.ap-gn-modelTitle {
+    display: flex;
+    align-items: center;
+}
+
+.ap-gn__area {
+    min-width: 0;
+}
+
+.ap-gn-modelTitle a {
+    color: inherit;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    min-width: 0;
+}
+
+.ap-gn-modelTitle a span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ap-gn-iconlist {
+    display: flex;
+}
+
+.ap-gn-iconlist * {
+    margin-left: 5px;
+}
+
+.ap-gn-iconlist .ap-gn_modelStatusIcon-maintenance {
+    font-size: 9px;
+    font-weight: normal;
+    line-height: 1;
+    border: 1px solid white;
+    text-transform: uppercase;
+    padding: 4px 6px 2px;
+    border-radius: 2px;
+    cursor: default;
+}
+
+.ap-gn-keyboardShortcuts {
+    display: flex;
+    align-items: center;
+}
+
+.ap-gn-keyboardShortcuts > span {
+    display: flex;
+}
+
+.ap-gn-keyboardShortcuts > span:first-child {
+    white-space: nowrap;
+    margin-right: 1em;
+}
+
+.ap-gn-keyboardShortcuts .ap-gn-keyboard-key {
+    display: flex;
+    min-width: 1.1em;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 4px;
+    padding: .2em .3em;
+    margin: -10px .1em;
+    text-align: center;
+}
+
+.ap-gn-dropdown-item__action {
+    cursor: pointer;
+}
+
+.ap-gn-dropdown-item__action:hover, .ap-gn-notification__link:hover {
+    text-decoration: inherit;
+}
+
+.ap-gn-notifications-empty {
+    position: relative;
+}
+
+.ap-gn-notifications-empty__caption {
+    max-width: 100%;
+}
+
+.ap-gn-icon-btn__badge {
+    display: block;
+}
+
+.ap-gn-icon-btn__badge-text--pinned {
+    padding-top: 6px;
+}
+
+
+/* END YO-173 */
+/* CORETMA-293 - Optimizer styling overrides */
+
+.optimizer_editor_content .actionEditorLabel {
+    width: 33%;
+}
+
+/* END CORETMA-293 */
+
+/* YO-138 - Loading screen when using Global Nav. */
+.circles-loader__container {
+    width: 100%;
+    text-align: center;
+    padding-top: 25%;
+}
+
+.circles-loader {
+    margin: 0 80px;
+    display: inline-block;
+    position: relative;
+    height: 120px;
+}
+
+.circles-loader__discs {
+    width: 64px;
+    height: 64px;
+    animation: rotate1All 2s linear infinite;
+}
+
+.circles-loader__shape {
+    position: absolute;
+    overflow: visible;
+    top: 0;
+    left: 0;
+}
+
+.circles-loader__message {
+    animation: show 0.5s linear 10s 1 normal forwards;
+    opacity: 0;
+    margin-top: -40px;
+}
+.circles-loader__message p {
+    margin-bottom: 0.5em;
+}
+.circles-loader__message a {
+    float: none!important;
+}
+
+@keyframes show {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes rotate1All {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+@keyframes rotate1a {
+    0% { transform: scale(1) rotate(0deg);}
+    75% { transform: scale(1) rotate(360deg);}
+    100% { transform: scale(1) rotate(360deg);}
+}
+@keyframes rotate1b {
+    0% { transform: scale(1) rotate(0deg);}
+    50% { transform: scale(1) rotate(360deg);}
+    100% { transform: scale(1) rotate(360deg);}
+}
+
+.circles-loader__shape:nth-child(1) {
+    opacity: 0.15;
+}
+.circles-loader__shape:nth-child(2) {
+    animation: rotate1a 1.5s ease-in-out infinite;
+    opacity: 0.5;
+}
+.circles-loader__shape:nth-child(3) {
+    animation: rotate1b 1.5s ease-in-out infinite;
+    opacity: 0.75;
+}
+/* END YO-138 */
+
+/* START MAT-3 Copy and Paste Menu Items */
+
+.original .clipboardHelp {
+    padding-right: 4.5em;
+}
+
+.original .clipboardHelp table {
+    width: 100%;
+    padding-top: 0.5em;
+}
+
+.original .clipboardHelp td {
+    padding: 0.4em;
+    width: 45%;
+}
+
+.original .clipboardHelp .description {
+    text-align: right;
+    width: 55%;
+}
+
+/* END MAT-3 */
+
+/* START MAT-38 QuickSum */
+
+.original .ap-db-quicksum-container {
+    bottom: 0;
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+    position: absolute;
+}
+
+.original .ap-quicksum__warning {
+    vertical-align: middle;
+}
+
+/* END MAT-38 */
+
+/* CORETMA-286 - DashboardWidgetToolbar */
+
+/*.original .dashboardWidget.dashboardWidget-GRID .dijitToolbar.pageSelectorToolbar,*/
+.original .dashboardWidget .dijitToolbar.dashboardWidgetToolbar {
+    visibility: hidden;
+    float: right;
+    padding: 0; /* assumes we are already nested within pageSelectorToolbar */
+    width: auto; /* override existing set in dormouse to 100% */
+}
+
+.original .dashboardWidget-GRID.dijitFocused .dijitToolbar.dashboardWidgetToolbar {
+    visibility: visible;
+}
+
+.original .dashboardWidgetToolbar .searchButton .dijitArrowButtonInner {
+    display: none;
+}
+/* END CORETMA-286 */
+
+/* START MAT-66 */
+
+/* TODO: this is contain (or 'fit' in launchpad background parlance) - revisit if want to support center/stretch/fill */
+.original .dashboardImage {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.original .dashboardImage .dashboardImageMessage {
+    display: none;
+}
+
+.original .imageOption .imageOptionMessage {
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.original .dashboardImage .dashboardImageMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+.original .dashboardImage.invalidUrl .dashboardImageMessage {
+    display: block;
+}
+
+/* copied from .original .dashboardLeftPanel .synchronisedPagingTitleInitial */
+.original .dashboardLeftPanel .imageOptionLabelInitial {
+    margin: 5px 7px 0px 0px;
+}
+
+/* END MAT-66 */
+
+/* MAT-138 */
+.original .dashboardImage.notYetConfigured {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.original .dashboardImage.notYetConfigured::before {
+    content: ' ';
+    display: block;
+    background: 50% 50% no-repeat url(./images/mountain-scene.svg);
+    width: 324px;
+    height: 230px;
+    max-height: 100%;
+    margin: 10px;
+}
+/* END MAT-138 */
+
+/* MAT-139 */
+.original .heightAndWidth .heightAndWidth2 {
+    display: none;
+}
+
+.original .heightAndWidth .heightAndWidth2 .tableSpacer {
+    height: 10px;
+}
+/* END MAT-139 */
+
+/* MAT-103 placeholder */
+
+.original .dashboardImage.loading {
+    background: 50% 50% no-repeat url(../dormouse/images/loadingAnimation.gif);
+}
+
+/* END MAT-103 */
+
+/* START MAT-76 */
+
+.original .ap-undoConfirmation__cellCount {
+    font-weight: bold;
+}
+
+.original .ap-undoConfirmation__preview {
+    padding: 2em 0;
+}
+
+.original .ap-undoConfirmation__preview table {
+    border-collapse: collapse;
+    margin: auto;
+    max-width: 500px;
+}
+
+.original .ap-undoConfirmation__preview th {
+    background-color: #f1f1f1;
+    padding: 5px;
+}
+
+.original .ap-undoConfirmation__preview th,
+.original .ap-undoConfirmation__preview td {
+    border: 1px solid #ccc;
+    width: 50%;
+}
+
+.original .ap-undoConfirmation__preview div {
+    line-height: 1.2em;
+    margin: 5px;
+    max-height: 3.6em;
+    max-width: 250px;
+}
+
+.original .ap-undoConfirmation__preview th,
+.original .ap-undoConfirmation__preview div {
+    overflow: hidden;
+    text-align: center;
+}
+
+/* END MAT-76 */
+
+/* START CALC-1377 */
+.restoreBehaviour strong{
+    font-size: larger;
+}
+
+.restoreBehaviour .modeSelectorBody {
+    color: grey;
+    float: left;
+    width: 90%;
+}
+
+.restoreBehaviour .anaplanIcon {
+    display: inline-block;
+}
+
+.restoreBehaviourContainer {
+    display: flex;
+}
+
+.restoreBehaviourContainer .description {
+    padding: 2em 0 1em 2em;
+}
+
+.restoreBehaviour label {
+    margin: 1em 0 1em 1em;
+    padding: 2em;
+}
+
+.restoreBehaviour .restoreBehaviourLabelContainer .selected {
+    display: inline-block;
+    border:2px solid #3179b1;
+
+}
+
+.restoreBehaviour .restoreBehaviourLabelContainer .unselected {
+    display: inline-block;
+    cursor:pointer;
+    border:2px solid grey;
+}
+
+.restoreBehaviour .restoreBehaviourLabelContainer .unselected:hover {
+    display: inline-block;
+    cursor:pointer;
+    border:2px solid #3179b1;
+}
+
+#serialNumberSelectorLabel {
+    font-weight: normal;
+    margin: 0 0 0 1em;
+}
+
+/* END CALC-1377 */
+
+/* ===== ALM-1031 START ===== */
+
+.tagSearchDetailsForm label {
+    width: 84px;
+    text-align: right;
+}
+
+.tagSearchDescription {
+    margin-top: 0;
+}
+
+/* END ALM-1031 */
+
+/* ======= MAT-135 ======= */
+
+.original .dijitToasterContent {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+/* END MAT-135 */
+
+/* ======= MAT-24 ======= */
+
+.original .usabilityOptions__tooltipLabel {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Highly-specific selector to override dormouse.
+ * needs refactor of dormouse dijitTextBox styles */
+.original .dashboardLeftPanel .anaplanTitlePaneContentInner
+.dijitTextBox.usabilityOptions__tooltipTextarea {
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    min-height: 80px;
+    width: 100% !important;
+}
+
+.original .cell__tooltipIcon {
+    margin: 3px 2px 0 5px;
+    vertical-align: top;
+}
+
+.original .cell .inputContainer {
+    white-space: nowrap;
+}
+
+.original .cell .cellValueDATE,
+.original .cell .cellValueENTITY,
+.original .cell .cellValueTEXT,
+.original .cell .cellValueTIME_ENTITY {
+    white-space: normal;
+}
+
+.original .dashboardWidget-CELL .cell--hasTooltipIcon .selectionButton {
+    right: 30px;
+}
+
+.original .grid__tooltipIcon {
+    cursor: default;
+    display: inline-block;
+}
+
+.original .contextMenu + .grid__tooltipIcon,
+.original .dashboardWidgetToolbar + .grid__tooltipIcon {
+    margin-left: 10px;
+}
+
+.original .clean.dashboardWidget-GRID .toolbarLabel + .dijitButton,
+.original .zebra.dashboardWidget-GRID .toolbarLabel + .dijitButton,
+.original .clean.dashboardWidget-GRID .grid__tooltipIcon + .dijitButton,
+.original .zebra.dashboardWidget-GRID .grid__tooltipIcon + .dijitButton,
+.original .clean.dashboardWidget-GRID .toolbarLabel + .dijitDropDownButton,
+.original .zebra.dashboardWidget-GRID .toolbarLabel + .dijitDropDownButton,
+.original .clean.dashboardWidget-GRID .grid__tooltipIcon + .dijitDropDownButton,
+.original .zebra.dashboardWidget-GRID .grid__tooltipIcon + .dijitDropDownButton {
+    border-left: 1px solid #e7e7e7;
+}
+
+.original .clean.dashboardWidget-GRID .grid__tooltipIcon + .dijitButton,
+.original .zebra.dashboardWidget-GRID .grid__tooltipIcon + .dijitButton,
+.original .clean.dashboardWidget-GRID .grid__tooltipIcon + .dijitDropDownButton,
+.original .zebra.dashboardWidget-GRID .grid__tooltipIcon + .dijitDropDownButton {
+    margin-left: 10px;
+}
+
+.original .clean.dashboardWidget-GRID .pageSelectorToolbar .toolbarLabel,
+.original .zebra.dashboardWidget-GRID .pageSelectorToolbar .toolbarLabel {
+    border-right: none;
+}
+
+/* END MAT-24 */
+
+/* ===== MAT-169 ===== */
+
+.original .dashboardLeftPanel .anaplanTitlePaneContentInner .clearWrapper {
+    padding-left: 4px;
+}
+
+/* END MAT-169 */
+
+/* ===== ALM-1084 START ===== */
+
+.textBoxSelectorElement {
+    display: inline-block;
+}
+
+.dijitEllipsisButtonInner {
+    background: no-repeat center;
+    width: 18px;
+    height: 18px;
+    direction: ltr; /* needed by IE/RTL */
+    cursor: pointer;
+}
+
+.dijitEllipsisButtonInner:focus {
+    background: #f1f1f1;
+}
+
+.dijitEllipsisButtonContainer {
+    float: right;
+    text-align: center;
+}
+
+.dijitEllipsisButtonNode {
+    border: 0;
+    margin: 0;
+    line-height: normal;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* END ALM-1084 */
+
+/* BUGZZZ-876 */
+
+.modelManagementMainView .anaplanEditorIconInvalid {
+    margin-bottom: 9px;
+}
+/* END BUGZZZ-876 */
+
+/* ===== MAT-219 ===== */
+
+.cell .dijitDateTextBox {
+    /* For some reason dormouse floats all dates to the right! */
+    /* Looks like it was added for settings - history */
+    float: none;
+}
+
+/* END MAT-219 */
+
+/* ===== MAT-199 searchable page selector ===== */
+
+.original .pagingPageSelectorDropdown {
+    height: 300px;
+    width: 400px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.original .searchableSelector .inlineSearch {
+    display: block;
+    margin: 10px;
+}
+
+.original .searchableSelector .inlineSearch .table-cell:first-child,
+.original .searchableSelector .inlineSearch .table-cell:last-child {
+    width: 18px;
+}
+
+.original .searchableSelector .noResults {
+    margin: 10px;
+}
+
+.original .searchableSelector .inlineSearchResults .dijitTreeNode,
+.original .searchableSelector .inlineSearchResults .dijitTreeIsLast,
+.original .searchableSelector .inlineSearchResults .dijitTreeExpandoLeaf {
+    background-image: none;
+}
+
+/* fix alignment of standalone page selector button border with its drop-down panel */
+.original .dashboardWidget .pageSelectorWidget {
+    border: none; /* override dormouse */
+    border-bottom: none; /* override .claro .dijitToolbar */
+}
+.original .dashboardWidget .pageSelectorWidget .dijitDropDownButton:last-child {
+    border: 1px solid #ccc;
+}
+
+/* END MAT-199 */
+
+/* PM-750 Ability to disable the launchpad link in the Anaplan logo */
+/* TODO: this should be removed when Global Nav is updated. */
+
+#gn::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 16px;
+    position: absolute;
+    bottom: 0;
+}
+/* END PM-750 */
+
+/* MAT-272 - Search display box broken in Page Selectors when not at 100% Zoom */
+
+.original .inlineSearch .dijitInputContainer,
+.original .inlineSearch .dijitTextBoxFocused .dijitInputContainer,
+.original .inlineSearch .dijitTextBox {
+    background: transparent;
+}
+
+/* END MAT-272 */
+
+/* MAT-277 I want the quick access toolbar filter options to have appropriate icon on hover */
+
+/* see comment in MAT-277 that explains what we are overriding in dormouse */
+
+.original .dashboardWidget .dijitToolbar.dashboardWidgetToolbar .dijitComboButton .dijitButtonNode * {
+    cursor: pointer;
+}
+
+/* END MAT-277 */
+
+/* MAT-260 Quick Filter */
+
+/* TODO come back to this and refactor - uses list filter settings as starting point MAT-231 and have COPIED from above
+to make editing easier */
+
+
+.original .quickFilter {
+}
+
+.original .quickFilter .title {
+    font-weight: bold;
+}
+
+.original .quickFilter .instructions {
+    padding-top: 10px;
+}
+
+.original .quickFilter .editorWrapper {
+    padding-top: 5px;
+}
+
+/* size and style as placeholder for tokeninput */
+.original .quickFilter .editorContainer {
+    border: 1px solid #ccc;
+    height: 28px;
+}
+
+/* dupe of busy indicator in other places */
+.original .quickFilter .indicator {
+    background-repeat: no-repeat;
+    background-position: left center;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+
+.original .quickFilter .indicator.busyIndicator {
+    background-image: url("../dormouse/images/ajax-loader.gif");
+}
+
+.original .quickFilter .filterTab {
+    height: 100px;
+    width: 420px;
+}
+
+.original .quickFilter .arityTwoEditorSeparator {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+/* overriding a couple of classes from filter dialog which tbc but i dont think we want */
+
+.original .quickFilter .filterTab .filterConditions {
+    padding: 10px 0px 0px 0px;
+}
+
+.original .quickFilter .filterCondition {
+    border: none;
+}
+
+.original .filterOverview {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.original .filterOverview .table-container-quick,
+.original .filterOverview .table-container-advanced {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 500px;
+    min-height: 30px;
+}
+
+.original .filterOverview .table-container-advanced .lineItemText {
+    font-weight: bold;
+}
+
+.original .filterOverview .table-container-quick .filterDetails,
+.original .filterOverview .table-container-advanced .filterDetails {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+}
+
+.original .filterOverview .table-container-quick .startColumn,
+.original .filterOverview .table-container-advanced .startColumn,
+.original .filterOverview .table-container-quick .endColumn,
+.original .filterOverview .table-container-advanced .endColumn {
+    width: 20px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    min-height: 30px;
+}
+
+.original .filterOverview .table-container-quick .startColumn,
+.original .filterOverview .table-container-advanced .startColumn {
+    border-left: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.original .filterOverview .table-container-quick .endColumn,
+.original .filterOverview .table-container-advanced .endColumn {
+    border-right: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.original .filterOverview .table-container-quick .tableContainer,
+.original .filterOverview .table-container-advanced .tableContainer {
+    width: calc(100% - 42px);
+}
+
+.original .filterOverview .table-container-quick .tableContainer table tr,
+.original .filterOverview .table-container-advanced .tableContainer table tr {
+    line-height: 30px;
+}
+
+.original .filterOverview .table-container-quick .tableContainer table td,
+.original .filterOverview .table-container-advanced .tableContainer table td {
+    padding: 0px 4px;
+}
+
+
+.original .filterOverview .table-container-quick .andOrRowSpan,
+.original .filterOverview .table-container-advanced .andOrRowSpan {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.original .filterOverview .table-container-quick td hr,
+.original .filterOverview .table-container-advanced td hr {
+    display: inline-block;
+    width: calc(100% - 60px);
+    vertical-align: middle;
+    border-style: dashed;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: normal;
+    color: #ccc;
+}
+
+.original .filterOverview .table-container-quick .invalidIcon,
+.original .filterOverview .table-container-advanced .invalidIcon {
+    align-self: center;
+    justify-self: end;
+}
+
+.original .filterOverview .separator {
+    text-align: center;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+}
+
+.original .filterOverview .separator span {
+    font-weight: bold;
+}
+
+.original .filterOverview .separator::before,
+.original .filterOverview .separator::after {
+    content: "";
+    flex-grow: 1;
+    background: #ccc;
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 0px 8px;
+}
+
+.original .filterOverview .table-container-quick .filterOverviewProp-lineItemLabel,
+.original .filterOverview .table-container-advanced .filterOverviewProp-lineItemLabel {
+    font-weight: bold;
+    line-height: normal;
+}
+
+.original .filterOverview .table-container-quick .filterOverviewProp-lineItemLabel {
+    padding: 4px 16px 4px 0;
+}
+
+.original .filterOverview .table-container-advanced .filterOverviewProp-lineItemLabel {
+    padding: 0 4px 4px 0;
+}
+
+.original .filterOverview .table-container-quick .filterOverviewProp-operator span,
+.original .filterOverview .table-container-advanced .filterOverviewProp-operator {
+    white-space: nowrap;
+}
+
+.original .filterOverview .table-container-quick .filterOverviewProp-operator span,
+.original .filterOverview .table-container-quick .filterOverviewProp-value span,
+.original .filterOverview .table-container-advanced .filterOverviewProp-operator,
+.original .filterOverview .table-container-advanced .filterOverviewProp-value {
+    background-color: #e0edfb;
+    border-radius: 5px;
+    padding: 6px 8px 6px 8px;
+}
+
+.original .filterOverview .value,
+.original .filterOverview .contextLabels {
+    width: 250px;
+}
+
+.original .filterOverview .dimensionLabel {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.original .filterOverview .filterOverviewType {
+    float: right;
+    color: #ccc;
+    padding-bottom: 10px;
+}
+
+.original .filterOverview .filterOverviewType .anaplanEditorIcon,
+.original .filterOverview .filterOverviewType span {
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.original .filterOverview .filterOverviewType span {
+    margin-right: 8px;
+}
+
+.original .filterOverview .tableContainer table {
+    width: 100%;
+}
+
+.original .filterOverview .additionalFiltersApplied {
+    padding-top: 10px; /* to match padding-bottom on .filterOverviewType */
+}
+
+/* END MAT-260 */

@@ -1,24 +1,18 @@
-function action() {
-  var elem = document.getElementById("apply_drop");
-  var curStatus = 0;
-  if (elem.innerHTML == "Apply") {
-    elem.innerHTML = "Drop";
-    curStatus = 1;
-  } else {
-    elem.innerHTML = "Apply";
-  }
+function rsm_action() {
+  var elem = document.getElementById("apply-indent");
+  var action = elem.checked ? 'apply-indent':'disable-indent';
 
   chrome.tabs.query({
     active: true,
     currentWindow: true
   }, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
-        action: curStatus
+        action: action
       });
   });
 
 }
 
 window.addEventListener('load', function () {
-  document.getElementById('apply_drop').addEventListener('click', action);
+  document.getElementById('apply-indent').addEventListener('change', rsm_action);
 }, false);

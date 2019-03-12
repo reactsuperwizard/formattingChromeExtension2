@@ -1,0 +1,212 @@
+/* USG-191 - Core Client CSS tweaks to go with Global Nav integration */
+
+.original #banner {
+    background: #fff;
+    height: 44px;
+}
+
+.original #slideout {
+    margin-top: 0;
+    border-top: 0;
+    border-right: 0;
+    margin-right: -2px;
+    border-right: 1px solid #ccc;
+}
+
+.original #content_tablist > .dijitTabListWrapper {
+    background: #eaeaea;
+    /* Linear gradient used to add border to behind the tabs */
+    background: linear-gradient(to top, #ccc 1px, #eaeaea 1px)
+}
+
+.claro #content_tablist  .dijitTabContainerTop-tabs {
+    padding: 0;
+    border-bottom: 0;
+}
+
+.claro #content_tablist .dijitTabContainerTop-tabs .dijitTab {
+    margin: 0;
+    border-width: 0;
+    padding: 8px 6px 8px;
+    background: #f8f8f8;
+    margin: 0 1px 0 0;
+    border-bottom: 1px solid #ccc;
+    top: 0;
+    vertical-align: top;
+}
+
+.claro #content_tablist .dijitTabContainerTop-tabs .dijitTab:last-child {
+    border-right: 1px solid #ccc;
+}
+
+.claro #content_tablist .dijitTabContainerTop-tabs .dijitTab > span {
+    margin-top: 1px;
+    vertical-align: top;
+}
+
+.claro #content_tablist .dijitTabContainerTop-tabs .dijitTabChecked {
+    box-shadow: 0 1px 3px 2px rgba(0,0,0,.1);
+    border-bottom: 1px solid #fff;
+    z-index: 1000;
+    background: #fff;
+}
+
+.original #border > .dijitSplitterV,
+.original #settings_tab .dijitSplitterV {
+    z-index: 440;
+    margin-left: -3px;
+    margin-top: 0;
+}
+
+.original #settings_tab .dijitSplitterV {
+    border-right: 1px solid #ccc;
+
+}
+
+.original #content_tablist .dojoExpandoPaneInner {
+    background: #F2F2F2;
+}
+
+.original .dijitSplitterV:hover {
+    background: #9ec7f1;
+}
+
+.claro #content_tablist  .tabStripButton {
+    height: 28px !important;
+    background: #f8f8f8;
+    margin-top: 0;
+    border-top: 0;
+}
+
+.claro  #content_tablist .dijitTabStripIcon {
+    margin-top: 10px;
+}
+.claro #content_tablist .dijitTabStripMenuIcon {
+    margin-top: 12px;
+}
+
+/* Hide guttering */
+.claro  .dijitBorderContainer-child {
+    border: 0;
+}
+
+#content_tablist {
+    margin-top: 0;
+}
+
+#content_tablist_leftBtn {
+    box-shadow: 0 1px 3px 2px rgba(0,0,0,.1);
+    border-left: 0;
+}
+
+#content_tablist_rightBtn {
+    box-shadow: -1px 0px 4px 0px rgba(0,0,0,0.1);
+    border-right: 0;
+}
+
+#content_tablist_menuBtn .dijitTabStripIcon {
+    margin-top: 12px;
+}
+
+.claro .tabStripButtonDisabled .dijitTabStripSlideLeftIcon {
+    border-right-color: #cecece;
+}
+
+.claro .tabStripButtonDisabled .dijitTabStripSlideRightIcon {
+    border-left-color: #cecece;
+}
+
+#content_tablist_menuBtn {
+    border-right: 0;
+}
+
+.anaplanTabsView .gridhost  {
+    margin-left: 6px;
+}
+
+.settings_tab .gridhost {
+    margin-left: -1px;
+}
+
+
+/* SLIDER UPDATE */
+.original #slideout .dojoExpandoPaneInner {
+    background: transparent;
+}
+
+.original #slideout {
+    background: #eaeaea;
+    background: linear-gradient(to bottom, #eaeaea, #f3f3f3);
+    box-shadow: inset -4px 0 5px -5px rgba(0,0,0,.3);
+}
+
+.original #border > .dijitSplitterV .dijitSplitterThumb {
+    background: #989898;
+}
+
+.original #settings_tab .dijitSplitterV .dijitSplitterThumb {
+    background: #b7b6b6;
+}
+
+.original #border > .dijitSplitterVHover .dijitSplitterThumb,
+.original #settings_tab .dijitSplitterVHover .dijitSplitterThumb {
+    background: #fff;
+}
+
+.original .dojoxExpandoTitle {
+    padding: 9px 7px 2px 1px;
+}
+
+.original #slideout .toggleAllButton {
+    padding-right: 2px;
+}
+.original #slideout .dojoxExpandoContainer,
+.original #slideout .showHelpButton {
+    top: 9px;
+}
+
+.original #slideout .sidebarButtonIconSettings {
+    margin-left: 4px;
+}
+
+.modelContentsHeadline,
+.modelSettingsHeadline{
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.original .showHelpButton {
+    margin-top: 0;
+}
+
+.original .sidebarButtonIconWorkflow,
+.original .anaplanViewModelMap,
+.original .sidebarButtonIconSettings {
+    margin-left: 4px;
+}
+
+.original .dojoDndItem.dojoDndItemAfter:before,
+.original .dojoDndItem.dojoDndItemBefore:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 3px;
+    background: #33d76f;
+    right: 0;
+    top: 0;
+}
+
+.original .dojoDndItem.dojoDndItemBefore:before {
+    left: 0;
+    top: 0;
+}
+
+.original .dojoDndItem.dojoDndItemAnchor:before {
+    background: transparent;
+}
+
+/* Hide the splitter thumb as it looks odd when animation runs */
+.original #slideout_splitter .dijitSplitterThumb {
+    display: none;
+}
+
+/* END USG-191 */

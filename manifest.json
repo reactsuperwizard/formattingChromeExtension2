@@ -3,11 +3,7 @@
   "name": "Formatting Formula",
   "description": "Chrome Extension",
   "version": "1.0",
-  "author": "@javascriptninja815",
-  "background": {
-    "persistent": false,
-    "scripts": [ "background.js" ]
-  },
+  "author": "@rsm0128",
   "permissions": [
     "activeTab",
     "http://*/*",
@@ -17,12 +13,11 @@
   "content_scripts" : [
     {
       "matches": ["http://*/*", "https://*/*", "file:///*"],
-      "js": ["jquery.js", "myscript.js"],
-      "css": ["formatter.css"]
+      "js": ["jquery.js", "myscript.js"]
     }
   ],
   "browser_action": {
-    "default_icon": "anaplan.png",
+    "default_icon": "logo.png",
     "default_title": "Formatting",
     "default_popup": "popup.html"
   }
