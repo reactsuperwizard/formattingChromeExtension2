@@ -124,8 +124,6 @@ if ($('.formulaEditorText').length) {
     // find if position
     var ifIndices = rsmGetIndicesOf("if", srcStr, false);
     var thenIndices = rsmGetIndicesOf("then", srcStr, false);
-    console.log(srcStr + ':');
-    console.log(thenIndices);
     var elseIndices = rsmGetIndicesOf("else", srcStr, false);
 
     var highlights = [];
@@ -256,7 +254,6 @@ if ($('.formulaEditorText').length) {
 
   chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
-      console.log(request);
       if ( request.action == 'apply-indent' ) {
         document.getElementById("rsm-indentation-style").disabled = false;
       } else {
