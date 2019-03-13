@@ -1,6 +1,9 @@
+var apply_yn = false;
 function rsm_action() {
   var elem = document.getElementById("apply-indent");
-  var action = elem.checked ? 'apply-indent':'disable-indent';
+  apply_yn = !apply_yn;
+  var action = apply_yn ? 'apply-indent':'disable-indent';
+  elem.innerText = apply_yn ? "CANCEL" : "APPLY";
 
   chrome.tabs.query({
     active: true,
@@ -14,5 +17,5 @@ function rsm_action() {
 }
 
 window.addEventListener('load', function () {
-  document.getElementById('apply-indent').addEventListener('change', rsm_action);
+  document.getElementById('apply-indent').addEventListener('click', rsm_action);
 }, false);
