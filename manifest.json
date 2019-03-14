@@ -8,7 +8,8 @@
     "activeTab",
     "http://*/*",
     "https://*/*",
-    "file:///*"
+    "file:///*",
+    "storage"
   ],
   "content_scripts" : [
     {
