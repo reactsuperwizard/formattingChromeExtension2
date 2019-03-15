@@ -1,5 +1,6 @@
-var gRsmColor = 'APPLY';
-var gRsmIndent = false;
+var gRsmCurrentColor = 'APPLY';
+var gRsmCurrentIndent = false;
+var gPrevValue = '';
 
 function rsmIsLetter(str) {
   return str != undefined && str.length === 1 && str.match(/[a-z_]/i);
@@ -168,16 +169,20 @@ function rsmFormatText(srcStr) {
       highlights[i] = {depth:totalParDepth, type:"close", len:1};
     } else if ( srcStr[i] == '[' ) {
       if ( i > 0 && rsmIsLetter(srcStr[i-1]) ) {
-        let subStr = srcStr.slice(0,i);
-        let matches = subStr.match(/[a-z_]+/gi);
-        let lastMatch = matches[matches.length-1];
-        let pos = subStr.lastIndexOf(lastMatch);
+        /*let subStr = srcStr.slice(i);
+        let matches = subStr.match(/\[[a-z_]+:/gi);
 
-        highlights[pos] = {type:"brafunc", len:lastMatch.length};
+        if ( matches != null && matches.length > 0 ) {
+          let braMatch = matches[0];
+          highlights[i+1] = {type:"brafunc", len:braMatch.length-2};
+        }*/
+
         highlights[i] = {depth:braFuncDepth, type:"braopen", len:1};
+        highlights[i+1] = {type:"braContentStart", count:1};
         braFuncDepth++;
       }
     } else if ( srcStr[i] == ']' ) {
+      highlights[i-1] = {type:"braContentEnd", count:1};
       highlights[i] = {depth:braFuncDepth, type:"braclose", len:1};
       braFuncDepth--;
     } else if ( ifIndices.indexOf(i) >= 0 ) {
@@ -244,6 +249,10 @@ function rsmFormatText(srcStr) {
       destStr = [destStr.slice(0, curPos+2), '<span class="' + classStr + '">'.repeat(curHighLights.count), destStr.slice(curPos+2)].join('');
     } else if (curType == "indentEnd") {
       destStr = [destStr.slice(0, curPos+1), '</span>'.repeat(curHighLights.count), destStr.slice(curPos+1)].join('');
+    } else if ( curType == "braContentStart") {
+      destStr = [destStr.slice(0, curPos), '<span class="' + classStr + '">'.repeat(curHighLights.count), destStr.slice(curPos)].join('');
+    } else if ( curType == "braContentEnd") {
+      destStr = [destStr.slice(0, curPos+1), '</span>'.repeat(curHighLights.count), destStr.slice(curPos+1)].join('');
     } else {
       destStr = [destStr.slice(0, curPos), '<span class="' + classStr + '">', destStr.slice(curPos,curPos+curLen), '</span>', destStr.slice(curPos+curLen)].join('');
     }
@@ -257,37 +266,44 @@ function rsmUpdateFormatting(srcStr) {
   let destStr = rsmFormatText(srcStr);
 
   $('#formated_text').html(destStr);
-  $('.formulaEditorText').val($('#formated_text').text());
+  $('.formulaEditorText').val($('#formated_text').text().trim());
 }
 
 // create elements and add trigger
 function rsmInitElement() {
   $('.formulaEditorText').before('<code id="formated_text" style="" contenteditable="true"></code>');
-  $('.formulaEditorText').before("<style>.original .formulaEditorExpressionTable{table-layout: fixed;} #formated_text {font-size: 12px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;} .rsm-highlight {font-weight: bold} .rsm-bracket-wrong {color: #f00;font-weight: 900;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: yellow;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;} .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc {color: darkgreen;}</style>");
+  $('.formulaEditorText').before("<style>" + 
+    ".original .formulaEditorExpressionTable{table-layout: fixed;}" +
+    " #formated_text {overflow: scroll;display:none; font-size: 12px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;}" +
+    " .rsm-bracket-wrong {color: #f00;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: yellow;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;}" +
+    " .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc{color: darkgreen;} .rsm-brafunc, .rsm-bracket, .rsm-ite, .rsm-func, .rsm-braopen, .rsm-braclose{font-weight:bold;} .rsm-braContentStart{color: darkgreen;}</style>");
   $('.formulaEditorText').before("<style id='rsm-indentation-style' disabled>.rsm-ite {display: block;} .rsm-indentStart {display:block; margin-left: 30px;}</style>");
   document.getElementById("rsm-indentation-style").disabled = true;
 
   // init text
-  rsmUpdateFormatting($('.formulaEditorText').val());
+  // rsmUpdateFormatting($('.formulaEditorText').val());
 
   document.getElementById("formated_text").addEventListener("input", function(evt) {
-    if ( evt.inputType == "insertParagraph" ) {
-      evt.preventDefault();
-      evt.stopPropagation();
-      // if enter key pressed
-      // $('.formulaEditorText').val($('#formated_text').text());
-      var e = $.Event('keypress', { keyCode: 13 });
-      $('.formulaEditorText').trigger(e);
-      return;
-    }
-
-    let srcStr = $('#formated_text').text();
     let el = $("#formated_text").get(0);
     let selection = rsmGetSelectionCharacterOffsetWithin(el);
-    rsmUpdateFormatting(srcStr);
+    rsmUpdateFormatting($('#formated_text').text());
     rsmSetSelectionRange(el, selection.start, selection.start);
     
   }, false);
+
+  $('#formated_text').keydown(function(e) {
+    if (e.key === "Escape") {
+      console.log('in esc');
+      rsmUpdateFormatting(gPrevValue);
+      return false;
+      // esc key
+    } else if (e.keyCode == 13) {
+      // enter key
+      $('.formulaEditorText').dblclick();
+      $('.formulaEditorText').trigger(e);
+      return false;
+    }
+  });
 }
 
 function rsmApplyColor(flag) {
@@ -305,48 +321,51 @@ function rsmApplyIndent(flag) {
   document.getElementById("rsm-indentation-style").disabled = !flag;
 }
 
+function rsmRefresh() {
+  if ( $('.formulaEditorText').length == 0 ) return;
+  if ( !$('#formated_text').length ) {
+    rsmInitElement();
+  }
+  rsmApplyColor(gRsmCurrentColor != 'APPLY');
+  rsmApplyIndent(gRsmCurrentIndent);
+}
+
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
 
-    if ( $('.formulaEditorText').length == 0 ) return;
-    if (!$('#formated_text').length) rsmInitElement();
-
     if ( request.action == 'apply-indent' ) {
-      rsmApplyIndent(true);
+      // rsmApplyIndent(true);
+      gRsmCurrentIndent = true;
     } else if ( request.action == 'disable-indent' ) {
-      rsmApplyIndent(false);
+      // rsmApplyIndent(false);
+      gRsmCurrentIndent = false;
     } else if ( request.action == 'apply-color' ) {
-      rsmApplyColor(true);
+      gRsmCurrentColor = 'CANCEL';
+      // rsmApplyColor(true);
     } else if ( request.action == 'disable-color' ) {
-      rsmApplyColor(false);
+      // rsmApplyColor(false);
+      gRsmCurrentColor = 'APPLY';
     }
+    rsmRefresh();
   } 
 );
+
+$('body').on('click', '.formulaBarRowLabelCell, [id*="anaplan_widgets_GridSelection"], .qa-module tr, #dijit_layout_BorderContainer_1', function(){
+  setTimeout(function(){
+    rsmRefresh();
+    gPrevValue = $('.formulaEditorText').val();
+  }, 300);
+});
 
 chrome.storage.local.get({
     rsmColor: 'APPLY',
     rsmIndent: false
   }, function(items) {
-  gRsmColor = items.rsmColor;
-  gRsmIndent = items.rsmIndent;
+  gRsmCurrentColor = items.rsmColor;
+  gRsmCurrentIndent = items.rsmIndent;
 });
 
-
-
-$('body').click(function(){
-  if ( $('.formulaEditorText').length == 0 ) return;
-
-  // if current setting and chrome setting is different then force update
-  if ( !$('#formated_text').length && gRsmColor != 'APPLY' ) {
-    rsmInitElement();
-    if ( gRsmColor != 'APPLY' ) {
-      rsmApplyColor(true);
-    }
-
-    // if current setting and chrome setting is different then force update
-    if ( gRsmIndent ) {
-        rsmApplyIndent(true);
-    }
-  }
-});
-
+/*var target = document.querySelector('#testdiv');
+observer.observe(target, {
+  attributes: true
+});*/

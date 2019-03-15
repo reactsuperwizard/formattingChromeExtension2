@@ -1,8 +1,6 @@
 function rsm_save_options() {
   var color = document.getElementById('apply-color').innerHTML;
   var indent = document.getElementById('apply-indent').checked;
-  console.log(color);
-  console.log(indent);
   chrome.storage.local.set({
     rsmColor: color,
     rsmIndent: indent
