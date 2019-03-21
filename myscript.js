@@ -262,8 +262,6 @@ function rsmFormatText(srcStr) {
   return destStr;
 };
 
-
-// The dollar sign will equal jQuery in this scope
 function rsmUpdateFormatting(srcStr) {
   srcStr = srcStr.trimRight() + ' ';
   let destStr = rsmFormatText(srcStr);
@@ -293,22 +291,29 @@ function rsmInitElement() {
     rsmSetSelectionRange(el, selection.start, selection.start);
   }, false);
 
+  // esc key
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').keydown(function(e) {
     if (e.key === "Escape") {
-      // rsmUpdateFormatting(gPrevValue);
-      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').attr('prev_value'));
+      $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, cancelable: true, keyCode: 27}));
+      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
       return false;
-      // esc key
-    } else if (e.keyCode == 13) {
-      // enter key
-      $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').hide();
-      $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').show();
+    } else if (e.keyCode == '13') {
+        $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, cancelable: true, keyCode: 13}));
+        //rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
       return false;
     }
   });
+
+  // double click
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').dblclick(function(){
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
+  });
+
+    // double click
+    $('.formulaEditorButtonsCell .dijitButtonNode').click(function(){
+      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+    });
 }
-
-
 
 function rsmApplyColor(flag) {
   if (flag) {
@@ -357,34 +362,6 @@ function rsmRefresh() {
   return 2;
 }
 
-chrome.extension.onMessage.addListener(
-  function(request, sender, sendResponse) {
-
-    if ( request.action == 'apply-indent' ) {
-      gRsmCurrentIndent = true;
-    } else if ( request.action == 'disable-indent' ) {
-      gRsmCurrentIndent = false;
-    } else if ( request.action == 'apply-color' ) {
-      gRsmCurrentColor = 'CANCEL';
-    } else if ( request.action == 'disable-color' ) {
-      gRsmCurrentColor = 'APPLY';
-    } else if ( request.action == 'apply-tooltip' ) {
-      gRsmCurrentTooltip = true;
-    } else if ( request.action == 'disable-tooltip' ) {
-      gRsmCurrentTooltip = false;
-    }
-
-    if ( $('table.grid.qa-module').length > 0 ) {
-      rsmApplyTooltip(gRsmCurrentTooltip);
-    }
-
-    if (rsmRefresh()) {
-      rsmApplyColor(gRsmCurrentColor != 'APPLY');
-      rsmApplyIndent(gRsmCurrentIndent);
-    }
-  } 
-);
-
 $(document).ready(function() {
   $('body').click(function(e){
     if ( $('table.grid.qa-module').length > 0 ) {
@@ -419,6 +396,34 @@ $(document).ready(function() {
     }
   });
 });
+
+chrome.extension.onMessage.addListener(
+  function(request, sender, sendResponse) {
+
+    if ( request.action == 'apply-indent' ) {
+      gRsmCurrentIndent = true;
+    } else if ( request.action == 'disable-indent' ) {
+      gRsmCurrentIndent = false;
+    } else if ( request.action == 'apply-color' ) {
+      gRsmCurrentColor = 'CANCEL';
+    } else if ( request.action == 'disable-color' ) {
+      gRsmCurrentColor = 'APPLY';
+    } else if ( request.action == 'apply-tooltip' ) {
+      gRsmCurrentTooltip = true;
+    } else if ( request.action == 'disable-tooltip' ) {
+      gRsmCurrentTooltip = false;
+    }
+
+    if ( $('table.grid.qa-module').length > 0 ) {
+      rsmApplyTooltip(gRsmCurrentTooltip);
+    }
+
+    if (rsmRefresh()) {
+      rsmApplyColor(gRsmCurrentColor != 'APPLY');
+      rsmApplyIndent(gRsmCurrentIndent);
+    }
+  } 
+);
 
 chrome.storage.local.get({
     rsmColor: 'APPLY',
