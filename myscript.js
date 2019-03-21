@@ -1,6 +1,7 @@
 var gRsmCurrentColor = 'APPLY';
 var gRsmCurrentIndent = false;
 var gRsmCurrentTooltip = false;
+var gRsmCurrentGrid = false;
 var gPrevValue = '';
 
 function rsmIsLetter(str) {
@@ -350,6 +351,13 @@ function rsmApplyTooltip(flag) {
   });
 }
 
+function rsmApplyGrid(flag) {
+  if (!$('#rsm-grid-style').length) {
+    $('body').append("<style id='rsm-grid-style'>.dashboardLayoutBorderRegion {background: linear-gradient(-90deg, #ccc 1px, transparent 1px), linear-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px, 20px 20px; } .dashboardWidget {background:#fff;}</style>");
+  }
+  document.getElementById("rsm-grid-style").disabled = !flag;
+}
+
 function rsmRefresh() {
   if ( $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').length == 0 ) return false;
   if ( !$('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').length ) {
@@ -364,14 +372,16 @@ function rsmRefresh() {
 
 $(document).ready(function() {
   $('body').click(function(e){
-    if ( $('table.grid.qa-module').length > 0 ) {
-      setTimeout(function(){
-        rsmApplyTooltip(gRsmCurrentTooltip);
-      }, 100);
-    }
-
-    if($(e.target).closest('table.formulaEditorExpressionTable').length) return;
     setTimeout(function(){
+      if ( $('table.grid.qa-module').length > 0 ) {
+        rsmApplyTooltip(gRsmCurrentTooltip);
+      }
+
+      if ( $('.dashboardLayoutBorderRegion').length > 0 ) {
+        rsmApplyGrid(gRsmCurrentGrid);
+      }
+
+      if($(e.target).closest('table.formulaEditorExpressionTable').length) return;
       let retVal = rsmRefresh();
       if (retVal) {
         let curValue = $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val();
@@ -412,10 +422,18 @@ chrome.extension.onMessage.addListener(
       gRsmCurrentTooltip = true;
     } else if ( request.action == 'disable-tooltip' ) {
       gRsmCurrentTooltip = false;
+    } else if ( request.action == 'apply-grid' ) {
+      gRsmCurrentGrid = true;
+    } else if ( request.action == 'disable-grid' ) {
+      gRsmCurrentGrid = false;
     }
 
     if ( $('table.grid.qa-module').length > 0 ) {
       rsmApplyTooltip(gRsmCurrentTooltip);
+    }
+
+    if ( $('.dashboardLayoutBorderRegion').length > 0 ) {
+      rsmApplyGrid(gRsmCurrentGrid);
     }
 
     if (rsmRefresh()) {
@@ -429,8 +447,10 @@ chrome.storage.local.get({
     rsmColor: 'APPLY',
     rsmIndent: false,
     rsmTooltip: false,
+    rsmGrid: false,
   }, function(items) {
   gRsmCurrentColor = items.rsmColor;
   gRsmCurrentIndent = items.rsmIndent;
   gRsmCurrentTooltip = items.rsmTooltip;
+  gRsmCurrentGrid = items.rsmGrid;
 });
