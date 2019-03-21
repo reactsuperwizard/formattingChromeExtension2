@@ -1,9 +1,11 @@
 function rsm_save_options() {
   var color = document.getElementById('apply-color').innerHTML;
   var indent = document.getElementById('apply-indent').checked;
+  var tooltip = document.getElementById('apply-tooltip').checked;
   chrome.storage.local.set({
     rsmColor: color,
-    rsmIndent: indent
+    rsmIndent: indent,
+    rsmTooltip: tooltip
   }, function() {
     //
   });
@@ -12,22 +14,24 @@ function rsm_save_options() {
 function rsm_restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.local.get({
-    rsmColor: 'APPLY',
-    rsmIndent: false
+    rsmColor: 'ENABLE',
+    rsmIndent: false,
+    rsmTooltip: false
   }, function(items) {
     document.getElementById('apply-color').innerHTML = items.rsmColor;
     document.getElementById('apply-indent').checked = items.rsmIndent;
+    document.getElementById('apply-tooltip').checked = items.rsmTooltip;
   });
 }
 
 function rsm_color_change() {
   var action = false;
   var elem = document.getElementById("apply-color");
-  if (elem.innerHTML == "APPLY") {
-    elem.innerHTML = "CANCEL";
+  if (elem.innerHTML == "ENABLE") {
+    elem.innerHTML = "DISABLE";
     action = 'apply-color';
   } else {
-    elem.innerHTML = "APPLY";
+    elem.innerHTML = "ENABLE";
     action = 'disable-color';
   }
 
@@ -59,9 +63,25 @@ function rsm_indent_change() {
   });
 }
 
+function rsm_tooltip_change() {
+  var elem = document.getElementById("apply-tooltip");
+  var action = elem.checked ? 'apply-tooltip':'disable-tooltip';
+
+  rsm_save_options();
+
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        action: action
+      });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   rsm_restore_options();
-  console.log('in')
   document.getElementById('apply-color').addEventListener('click', rsm_color_change);
   document.getElementById('apply-indent').addEventListener('change', rsm_indent_change);
+  document.getElementById('apply-tooltip').addEventListener('change', rsm_tooltip_change);
 });

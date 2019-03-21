@@ -1,5 +1,6 @@
 var gRsmCurrentColor = 'APPLY';
 var gRsmCurrentIndent = false;
+var gRsmCurrentTooltip = false;
 var gPrevValue = '';
 
 function rsmIsLetter(str) {
@@ -168,7 +169,7 @@ function rsmFormatText(srcStr) {
       totalParDepth--;
       highlights[i] = {depth:totalParDepth, type:"close", len:1};
     } else if ( srcStr[i] == '[' ) {
-      if ( i > 0 && rsmIsLetter(srcStr[i-1]) ) {
+      if ( i > 0 && rsmIsLetter(srcStr[i+1]) ) {
         /*let subStr = srcStr.slice(i);
         let matches = subStr.match(/\[[a-z_]+:/gi);
 
@@ -261,59 +262,62 @@ function rsmFormatText(srcStr) {
   return destStr;
 };
 
+
+// The dollar sign will equal jQuery in this scope
 function rsmUpdateFormatting(srcStr) {
   srcStr = srcStr.trimRight() + ' ';
   let destStr = rsmFormatText(srcStr);
 
-  $('#formated_text').html(destStr);
-  $('.formulaEditorText').val($('#formated_text').text().trim());
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').html(destStr);
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val($('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').text().trim());
 }
 
 // create elements and add trigger
 function rsmInitElement() {
-  $('.formulaEditorText').before('<code id="formated_text" style="" contenteditable="true"></code>');
-  $('.formulaEditorText').before("<style>" + 
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before('<code class="formated_text" style="" contenteditable="true"></code>');
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before("<style id='rsm-main-style'>" + 
     ".original .formulaEditorExpressionTable{table-layout: fixed;}" +
-    " #formated_text {overflow: scroll;display:none; font-size: 12px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;}" +
-    " .rsm-bracket-wrong {color: #f00;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: yellow;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;}" +
+    " .dijitTabContainerTopChildWrapper.dijitVisible .formated_text {overflow: scroll;display:none; font-size: 12px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;}" +
+    " .rsm-bracket-wrong {color: #f00;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: grey;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;}" +
     " .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc{color: darkgreen;} .rsm-brafunc, .rsm-bracket, .rsm-ite, .rsm-func, .rsm-braopen, .rsm-braclose{font-weight:bold;} .rsm-braContentStart{color: darkgreen;}</style>");
-  $('.formulaEditorText').before("<style id='rsm-indentation-style' disabled>.rsm-ite {display: block;} .rsm-indentStart {display:block; margin-left: 30px;}</style>");
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before("<style id='rsm-indentation-style' disabled>.rsm-ite {display: block;} .rsm-indentStart {display:block; margin-left: 30px;}</style>");
   document.getElementById("rsm-indentation-style").disabled = true;
 
   // init text
-  // rsmUpdateFormatting($('.formulaEditorText').val());
+  // rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
 
-  document.getElementById("formated_text").addEventListener("input", function(evt) {
-    let el = $("#formated_text").get(0);
+  var el = $(".dijitTabContainerTopChildWrapper.dijitVisible .formated_text").get(0);
+  el.addEventListener("input", function(e) {
     let selection = rsmGetSelectionCharacterOffsetWithin(el);
-    rsmUpdateFormatting($('#formated_text').text());
+    rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').text());
     rsmSetSelectionRange(el, selection.start, selection.start);
-    
   }, false);
 
-  $('#formated_text').keydown(function(e) {
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').keydown(function(e) {
     if (e.key === "Escape") {
-      console.log('in esc');
-      rsmUpdateFormatting(gPrevValue);
+      // rsmUpdateFormatting(gPrevValue);
+      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').attr('prev_value'));
       return false;
       // esc key
     } else if (e.keyCode == 13) {
       // enter key
-      $('.formulaEditorText').dblclick();
-      $('.formulaEditorText').trigger(e);
+      $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').hide();
+      $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').show();
       return false;
     }
   });
 }
 
+
+
 function rsmApplyColor(flag) {
   if (flag) {
-    rsmUpdateFormatting($('.formulaEditorText').val());
-    $('#formated_text').show();
-    $('.formulaEditorText').hide();
+    rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').show();
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').hide();
   } else {
-    $('.formulaEditorText').show();
-    $('#formated_text').hide();
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').show();
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').hide();
   }
 }
 
@@ -321,40 +325,95 @@ function rsmApplyIndent(flag) {
   document.getElementById("rsm-indentation-style").disabled = !flag;
 }
 
+$.fn.overflown=function(){
+  var e=this[0];
+  return e.scrollWidth>e.clientWidth;
+}
+
+function rsmApplyTooltip(flag) {
+  console.log(flag);
+  $('table.grid.qa-module td > div').each(function(e){
+    if ( $(this).overflown() ) {
+      if (flag) {
+        $(this).attr('title', $(this).text());
+      } else {
+        $(this).attr('title', '');
+      }
+    }
+  });
+}
+
 function rsmRefresh() {
-  if ( $('.formulaEditorText').length == 0 ) return;
-  if ( !$('#formated_text').length ) {
+  if ( $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').length == 0 ) return false;
+  if ( !$('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').length ) {
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').remove();
+    $('#rsm-main-style').remove();
+    $('#rsm-indentation-style').remove();
     rsmInitElement();
+    return 1;
   }
-  rsmApplyColor(gRsmCurrentColor != 'APPLY');
-  rsmApplyIndent(gRsmCurrentIndent);
+  return 2;
 }
 
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
 
     if ( request.action == 'apply-indent' ) {
-      // rsmApplyIndent(true);
       gRsmCurrentIndent = true;
     } else if ( request.action == 'disable-indent' ) {
-      // rsmApplyIndent(false);
       gRsmCurrentIndent = false;
     } else if ( request.action == 'apply-color' ) {
       gRsmCurrentColor = 'CANCEL';
-      // rsmApplyColor(true);
     } else if ( request.action == 'disable-color' ) {
-      // rsmApplyColor(false);
       gRsmCurrentColor = 'APPLY';
+    } else if ( request.action == 'apply-tooltip' ) {
+      gRsmCurrentTooltip = true;
+    } else if ( request.action == 'disable-tooltip' ) {
+      gRsmCurrentTooltip = false;
     }
-    rsmRefresh();
+
+    if ( $('table.grid.qa-module').length > 0 ) {
+      rsmApplyTooltip(gRsmCurrentTooltip);
+    }
+
+    if (rsmRefresh()) {
+      rsmApplyColor(gRsmCurrentColor != 'APPLY');
+      rsmApplyIndent(gRsmCurrentIndent);
+    }
   } 
 );
 
-$('body').on('click', '.formulaBarRowLabelCell, [id*="anaplan_widgets_GridSelection"], .qa-module tr, #dijit_layout_BorderContainer_1', function(){
+$('body').click(function(e){
+  if ( $('table.grid.qa-module').length > 0 ) {
+    setTimeout(function(){
+      rsmApplyTooltip(gRsmCurrentTooltip);
+    }, 100);
+  }
+
+  if($(e.target).closest('table.formulaEditorExpressionTable').length) return;
   setTimeout(function(){
-    rsmRefresh();
-    gPrevValue = $('.formulaEditorText').val();
-  }, 300);
+    let retVal = rsmRefresh();
+    if (retVal) {
+      let curValue = $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val();
+      if ( retVal == 2 && curValue == gPrevValue ) return; // if not updated
+
+      gPrevValue = curValue;
+      rsmApplyColor(gRsmCurrentColor != 'APPLY');
+      rsmApplyIndent(gRsmCurrentIndent);
+      $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').attr('prev_value', gPrevValue);
+    };
+  }, 100);
+});
+
+$(document).keydown(function(e) {
+  var lrud_keys = [37,38,39,40];
+  if (lrud_keys.indexOf(event.which) >= 0 && $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').length) {
+    if($(e.target).closest('table.formulaEditorExpressionTable').length) return;
+    setTimeout(function(){
+      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+      $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').attr('prev_value', $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+    }, 100);
+  }
 });
 
 chrome.storage.local.get({
@@ -363,9 +422,5 @@ chrome.storage.local.get({
   }, function(items) {
   gRsmCurrentColor = items.rsmColor;
   gRsmCurrentIndent = items.rsmIndent;
+  gRsmCurrentTooltip = items.rsmTooltip;
 });
-
-/*var target = document.querySelector('#testdiv');
-observer.observe(target, {
-  attributes: true
-});*/
