@@ -332,7 +332,7 @@ $.fn.overflown=function(){
 
 function rsmApplyTooltip(flag) {
   console.log(flag);
-  $('table.grid.qa-module td > div').each(function(e){
+  $('table.grid.qa-module td > div, table.grid.qa-module th > div').each(function(e){
     if ( $(this).overflown() ) {
       if (flag) {
         $(this).attr('title', $(this).text());
