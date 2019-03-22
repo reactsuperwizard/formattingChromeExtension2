@@ -1,7 +1,8 @@
-var gRsmCurrentColor = 'APPLY';
+var gRsmCurrentColor = false;
 var gRsmCurrentIndent = false;
 var gRsmCurrentTooltip = false;
 var gRsmCurrentGrid = false;
+var gRsmDisableLink = false;
 var gPrevValue = '';
 
 function rsmIsLetter(str) {
@@ -353,9 +354,25 @@ function rsmApplyTooltip(flag) {
 
 function rsmApplyGrid(flag) {
   if (!$('#rsm-grid-style').length) {
-    $('body').append("<style id='rsm-grid-style'>.dashboardLayoutBorderRegion {background: linear-gradient(-90deg, #ccc 1px, transparent 1px), linear-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px, 20px 20px; } .dashboardWidget {background:#fff;}</style>");
+    $('body').append("<style id='rsm-grid-style'>.dashboardLayout {background: linear-gradient(-90deg, #ccc 1px, transparent 1px), linear-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px, 20px 20px; } .dashboardWidget {background:#fff;}</style>");
   }
   document.getElementById("rsm-grid-style").disabled = !flag;
+}
+
+function rsmApplyDisableLink(flag) {
+  var attr = $('.ap-gn__logo').attr('data-href');
+  if(attr == undefined || attr == false || attr == '') {
+    console.log('in');
+    $('.ap-gn__logo').attr('data-href', $('.ap-gn__logo').attr('href'));
+  }
+
+  console.log($('.ap-gn__logo').data('href'));
+
+  if (flag) {
+    $('.ap-gn__logo').attr('href', '#');
+  } else {
+    $('.ap-gn__logo').attr('href', $('.ap-gn__logo').data('href'));
+  }
 }
 
 function rsmRefresh() {
@@ -377,8 +394,12 @@ $(document).ready(function() {
         rsmApplyTooltip(gRsmCurrentTooltip);
       }
 
-      if ( $('.dashboardLayoutBorderRegion').length > 0 ) {
+      if ( $('.dashboardLayout').length > 0 ) {
         rsmApplyGrid(gRsmCurrentGrid);
+      }
+
+      if ( $('.ap-gn__logo').length > 0 ) {
+        rsmApplyDisableLink(gRsmDisableLink);
       }
 
       if($(e.target).closest('table.formulaEditorExpressionTable').length) return;
@@ -388,7 +409,7 @@ $(document).ready(function() {
         if ( retVal == 2 && curValue == gPrevValue ) return; // if not updated
 
         gPrevValue = curValue;
-        rsmApplyColor(gRsmCurrentColor != 'APPLY');
+        rsmApplyColor(gRsmCurrentColor);
         rsmApplyIndent(gRsmCurrentIndent);
         $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').attr('prev_value', gPrevValue);
       };
@@ -405,6 +426,8 @@ $(document).ready(function() {
       }, 100);
     }
   });
+
+  $('body').click();
 });
 
 chrome.extension.onMessage.addListener(
@@ -415,9 +438,9 @@ chrome.extension.onMessage.addListener(
     } else if ( request.action == 'disable-indent' ) {
       gRsmCurrentIndent = false;
     } else if ( request.action == 'apply-color' ) {
-      gRsmCurrentColor = 'CANCEL';
+      gRsmCurrentColor = true;
     } else if ( request.action == 'disable-color' ) {
-      gRsmCurrentColor = 'APPLY';
+      gRsmCurrentColor = false;
     } else if ( request.action == 'apply-tooltip' ) {
       gRsmCurrentTooltip = true;
     } else if ( request.action == 'disable-tooltip' ) {
@@ -426,18 +449,26 @@ chrome.extension.onMessage.addListener(
       gRsmCurrentGrid = true;
     } else if ( request.action == 'disable-grid' ) {
       gRsmCurrentGrid = false;
+    } else if ( request.action == 'apply-link' ) {
+      gRsmDisableLink = false;
+    } else if ( request.action == 'disable-link' ) {
+      gRsmDisableLink = true;
     }
 
     if ( $('table.grid.qa-module').length > 0 ) {
       rsmApplyTooltip(gRsmCurrentTooltip);
     }
 
-    if ( $('.dashboardLayoutBorderRegion').length > 0 ) {
+    if ( $('.dashboardLayout').length > 0 ) {
       rsmApplyGrid(gRsmCurrentGrid);
     }
 
+    if ( $('.ap-gn__logo').length > 0 ) {
+      rsmApplyDisableLink(gRsmDisableLink);
+    }
+
     if (rsmRefresh()) {
-      rsmApplyColor(gRsmCurrentColor != 'APPLY');
+      rsmApplyColor(gRsmCurrentColor);
       rsmApplyIndent(gRsmCurrentIndent);
     }
   } 
@@ -448,9 +479,11 @@ chrome.storage.local.get({
     rsmIndent: false,
     rsmTooltip: false,
     rsmGrid: false,
+    rsmLink: false,
   }, function(items) {
   gRsmCurrentColor = items.rsmColor;
   gRsmCurrentIndent = items.rsmIndent;
   gRsmCurrentTooltip = items.rsmTooltip;
   gRsmCurrentGrid = items.rsmGrid;
+  gRsmDisableLink = items.rsmLink;
 });
