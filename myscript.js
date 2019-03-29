@@ -5,6 +5,7 @@ var gRsmCurrentGrid = false;
 var gRsmDisableLink = false;
 var gPrevValue = '';
 
+//////// NEW FORMULA BAR FUNCTIONS ////////////////////
 function rsmIsLetter(str) {
   return str != undefined && str.length === 1 && str.match(/[a-z_]/i);
 }
@@ -272,13 +273,23 @@ function rsmUpdateFormatting(srcStr) {
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val($('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').text().trim());
 }
 
-// create elements and add trigger
+function rsmGetCaretPosition(element) {
+  var caretOffset = 0;
+  var range = window.getSelection().getRangeAt(0);
+  var preCaretRange = range.cloneRange();
+  preCaretRange.selectNodeContents(element);
+  preCaretRange.setEnd(range.endContainer, range.endOffset);
+  caretOffset = preCaretRange.toString().length;
+  return caretOffset;
+}
+
+//////// FORMULA COLOR & EVENT HANDLER FUNCTIONS //////
 function rsmInitElement() {
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before('<code class="formated_text" style="" contenteditable="true"></code>');
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before("<style id='rsm-main-style'>" + 
     ".original .formulaEditorExpressionTable{table-layout: fixed;}" +
     " .dijitTabContainerTopChildWrapper.dijitVisible .formated_text {overflow: scroll;display:none; font-size: 12px; min-width:40px; min-height:20px; display:block; width:100%; height:100%; box-sizing: border-box;border: 1px solid #ccc!important; padding: 9px; white-space: pre-wrap;}" +
-    " .rsm-bracket-wrong {color: #f00;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: grey;} .rsm-bracket-2 {color: brown;} .rsm-bracket-3 {color: magenta;} .rsm-bracket-4 {color: purple;}" +
+    " .rsm-bracket-wrong {color: #f00;} .rsm-bracket-0 {color: green;} .rsm-bracket-1 {color: orange;} .rsm-bracket-2 {color: magenta;} .rsm-bracket-3 {color: brown;} .rsm-bracket-4 {color: purple;}" +
     " .rsm-ite-0 {color: #0070c0;} .rsm-ite-1 {color: #7030a0;} .rsm-ite-2 {color: #00B0F0;} .rsm-ite-3 {color: #0000ff;} .rsm-func {color: blue;} .rsm-brafunc{color: darkgreen;} .rsm-brafunc, .rsm-bracket, .rsm-ite, .rsm-func, .rsm-braopen, .rsm-braclose{font-weight:bold;} .rsm-braContentStart{color: darkgreen;}</style>");
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').before("<style id='rsm-indentation-style' disabled>.rsm-ite {display: block;} .rsm-indentStart {display:block; margin-left: 30px;}</style>");
   document.getElementById("rsm-indentation-style").disabled = true;
@@ -287,22 +298,37 @@ function rsmInitElement() {
   // rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
 
   var el = $(".dijitTabContainerTopChildWrapper.dijitVisible .formated_text").get(0);
+  
   el.addEventListener("input", function(e) {
     let selection = rsmGetSelectionCharacterOffsetWithin(el);
     rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').text());
     rsmSetSelectionRange(el, selection.start, selection.start);
+    var startPosition = rsmGetCaretPosition(el);
+    var endPosition = startPosition;
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].setSelectionRange(startPosition, endPosition);  
   }, false);
 
+  //  sync cursor position
+  el.addEventListener("click", function(){
+    var startPosition = rsmGetCaretPosition(el);
+    var endPosition = startPosition;
+    $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].setSelectionRange(startPosition, endPosition);
+  });
+
   // esc key
-  $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').keydown(function(e) {
+  $(document).keydown(function(e) {
     if (e.key === "Escape") {
       $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, cancelable: true, keyCode: 27}));
       rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
       return false;
-    } else if (e.keyCode == '13') {
-        $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, cancelable: true, keyCode: 13}));
-        //rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
-      return false;
+    } 
+  });
+
+  $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').keydown(function(e) {
+    if (e.keyCode == '13') {
+      console.log(e.keyCode)
+      //rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+    return false;
     }
   });
 
@@ -310,11 +336,11 @@ function rsmInitElement() {
   $('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').dblclick(function(){
     $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText')[0].dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
   });
-
-    // double click
-    $('.formulaEditorButtonsCell .dijitButtonNode').click(function(){
-      rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
-    });
+  
+  //  click on validate or cancel
+  $('.formulaEditorButtonsCell .dijitButtonNode').click(function(){
+    rsmUpdateFormatting($('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').val());
+  });
 }
 
 function rsmApplyColor(flag) {
@@ -328,10 +354,12 @@ function rsmApplyColor(flag) {
   }
 }
 
+//////// INDENTATION FUNCTIONS ////////////////////////
 function rsmApplyIndent(flag) {
   document.getElementById("rsm-indentation-style").disabled = !flag;
 }
 
+//////// TOOLTIP FUNCTIONS ////////////////////////////
 $.fn.overflown=function(){
   var e=this[0];
   return e.scrollWidth>e.clientWidth;
@@ -352,6 +380,7 @@ function rsmApplyTooltip(flag) {
   });
 }
 
+//////// GRID FUNCTIONS ///////////////////////////////
 function rsmApplyGrid(flag) {
   if (!$('#rsm-grid-style').length) {
     $('body').append("<style id='rsm-grid-style'>.dashboardLayout {background: linear-gradient(-90deg, #ccc 1px, transparent 1px), linear-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px, 20px 20px; } .dashboardWidget {background:#fff;}</style>");
@@ -359,14 +388,12 @@ function rsmApplyGrid(flag) {
   document.getElementById("rsm-grid-style").disabled = !flag;
 }
 
+//////// ANAPLAN LOGO FUNCTIONS ///////////////////////
 function rsmApplyDisableLink(flag) {
   var attr = $('.ap-gn__logo').attr('data-href');
   if(attr == undefined || attr == false || attr == '') {
-    console.log('in');
     $('.ap-gn__logo').attr('data-href', $('.ap-gn__logo').attr('href'));
   }
-
-  console.log($('.ap-gn__logo').data('href'));
 
   if (flag) {
     $('.ap-gn__logo').attr('href', '#');
@@ -375,6 +402,7 @@ function rsmApplyDisableLink(flag) {
   }
 }
 
+//////// REFRESH FUNCTIONS ////////////////////////////
 function rsmRefresh() {
   if ( $('.dijitTabContainerTopChildWrapper.dijitVisible .formulaEditorText').length == 0 ) return false;
   if ( !$('.dijitTabContainerTopChildWrapper.dijitVisible .formated_text').length ) {
@@ -430,6 +458,7 @@ $(document).ready(function() {
   $('body').click();
 });
 
+//////// EXTENSION FUNCTIONS //////////////////////////
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
 
@@ -475,7 +504,7 @@ chrome.extension.onMessage.addListener(
 );
 
 chrome.storage.local.get({
-    rsmColor: 'APPLY',
+    rsmColor: false,
     rsmIndent: false,
     rsmTooltip: false,
     rsmGrid: false,
@@ -486,4 +515,5 @@ chrome.storage.local.get({
   gRsmCurrentTooltip = items.rsmTooltip;
   gRsmCurrentGrid = items.rsmGrid;
   gRsmDisableLink = items.rsmLink;
+  gRsmEnablePalette = items.rsmPalette;
 });

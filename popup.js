@@ -4,12 +4,14 @@ function rsm_save_options() {
   var tooltip = document.getElementById('apply-tooltip').checked;
   var grid = document.getElementById('apply-grid').checked;
   var link = document.getElementById('disable-link').checked;
+  var palette = document.getElementById('apply-palette').checked;
   chrome.storage.local.set({
     rsmColor: color,
     rsmIndent: indent,
     rsmTooltip: tooltip,
     rsmGrid: grid,
     rsmLink: link,
+    rsmPalette: palette,
   }, function() {
     //
   });
@@ -23,12 +25,14 @@ function rsm_restore_options() {
     rsmTooltip: false,
     rsmGrid: false,
     rsmLink: false,
+    rsmPalette: false,
   }, function(items) {
     document.getElementById('apply-color').checked = items.rsmColor;
     document.getElementById('apply-indent').checked = items.rsmIndent;
     document.getElementById('apply-tooltip').checked = items.rsmTooltip;
     document.getElementById('apply-grid').checked = items.rsmGrid;
     document.getElementById('disable-link').checked = items.rsmLink;
+    document.getElementById('apply-palette').checked = items.rsmPalette;
   });
 }
 
@@ -80,6 +84,13 @@ function rsm_link_change() {
   rsm_handle_action(action);
 }
 
+function rsm_palette_change() {
+  var elem = document.getElementById("apply-palette");
+  var action = elem.checked ? 'apply-palette':'disable-palette';
+
+  rsm_handle_action(action);
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   rsm_restore_options();
   document.getElementById('apply-color').addEventListener('change', rsm_color_change);
@@ -87,4 +98,5 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('apply-tooltip').addEventListener('change', rsm_tooltip_change);
   document.getElementById('apply-grid').addEventListener('change', rsm_grid_change);
   document.getElementById('disable-link').addEventListener('change', rsm_link_change);
+  document.getElementById('apply-palette').addEventListener('change', rsm_palette_change);
 });
